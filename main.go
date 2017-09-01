@@ -10,21 +10,23 @@ var conf Conf
 func init() {
 	conf = Conf{
 		ServerPort:8098, ClientPort:8099,
-		HostIp:"127.0.0.1",}
+		HostIp:"127.0.0.1",
+		BatchSize: 4096,}
 }
 
 func Usage() {
 	fmt.Println("welcome to IWantYou.")
 	fmt.Println("Usage: ")
-	fmt.Println("\t ./IwantYou ${ROLE}")
+	fmt.Println("\t ./IwantYou ${ROLE} [filepath]")
 	fmt.Println("ROLE: server|client")
+	fmt.Println("filepath: path to file you want to send, required as client")
 	os.Exit(1)
 }
 
 func main() {
 	flag.Parse()
 
-	if len(os.Args) != 2 {
+	if len(os.Args) < 2 {
 		Usage()
 	}
 	role := os.Args[1]
@@ -32,7 +34,14 @@ func main() {
 	case "server":
 		conf.Role = Host
 	case "client":
+		if len(os.Args) != 3 {
+			Usage()
+		}
 		conf.Role = Client
+		paths := make([]string, 0)
+		path := os.Args[2]
+		paths = append(paths, path)
+		conf.Paths = paths
 	default:
 		Usage()
 	}

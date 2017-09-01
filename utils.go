@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"github.com/snluu/uuid"
 )
 
 // convert int to []byte
@@ -25,4 +26,9 @@ func BytesToInt(data []byte) int {
 		return -1
 	}
 	return int(i)
+}
+
+func GetUUID() string {
+	id := uuid.Rand()
+	return id.Hex()
 }
