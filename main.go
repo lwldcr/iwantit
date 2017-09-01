@@ -54,7 +54,6 @@ func main() {
 	case Client:
 		StartClient()
 	}
-
 }
 
 func StartServer() {
