@@ -1,16 +1,16 @@
 package main
 
 import (
-	"net"
-	"fmt"
-	"strconv"
-	"os"
 	"encoding/json"
+	"fmt"
+	"net"
+	"os"
+	"strconv"
 )
 
 func handleClientConn(conn net.Conn, path string) {
 	fmt.Println("start to sending data...", path)
-	header := Header{Uuid:GetUUID(),Filename:path,}
+	header := Header{Uuid: GetUUID(), Filename: path}
 
 	fileInfo, err := os.Stat(path)
 	if err != nil {
@@ -71,7 +71,6 @@ func handleClientConn(conn net.Conn, path string) {
 	}
 	fmt.Printf("%s sent successfully\n", path)
 }
-
 
 func StartClient() {
 	fmt.Println("starting client...")

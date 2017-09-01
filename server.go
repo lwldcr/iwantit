@@ -1,8 +1,8 @@
 package main
 
 import (
-	"net"
 	"fmt"
+	"net"
 	"strconv"
 )
 
@@ -17,4 +17,3 @@ func GetServer() net.Listener {
 	fmt.Println("server started")
 	return l
 }
-

@@ -7,11 +7,12 @@ import (
 )
 
 var conf Conf
+
 func init() {
 	conf = Conf{
-		ServerPort:8098, ClientPort:8099,
-		HostIp:"127.0.0.1",
-		BatchSize: 4096,}
+		ServerPort: 8098, ClientPort: 8099,
+		HostIp:    "127.0.0.1",
+		BatchSize: 4096}
 }
 
 func Usage() {

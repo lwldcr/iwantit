@@ -1,9 +1,9 @@
 package main
 
 import (
-	"net"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"net"
 	"os"
 )
 
@@ -35,7 +35,7 @@ func handleConn(conn net.Conn) {
 
 	saveFile := "new_" + header.Filename
 
-	fp, err := os.OpenFile(saveFile, os.O_CREATE | os.O_WRONLY, 0666)
+	fp, err := os.OpenFile(saveFile, os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		fmt.Println("open file failed:", err)
 		return
@@ -70,7 +70,7 @@ func handleConn(conn net.Conn) {
 		}
 	}
 
-	fmt.Println("new file saved", )
+	fmt.Println("new file saved")
 	fmt.Println("connection handled")
 	fmt.Println("--------------------")
 }
