@@ -12,7 +12,7 @@ func init() {
 	conf = Conf{
 		ServerPort: 8098, ClientPort: 8099,
 		HostIp:    "127.0.0.1",
-		BatchSize: 4096}
+		BatchSize: 1024 * 1024}
 }
 
 func Usage() {

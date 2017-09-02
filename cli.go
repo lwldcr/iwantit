@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 	"strconv"
+	"time"
 )
 
 func handleClientConn(conn net.Conn, path string) {
@@ -40,6 +41,9 @@ func handleClientConn(conn net.Conn, path string) {
 		return
 	}
 
+	start := time.Now()
+	var speed int64
+
 	offset := int64(0)
 	for {
 		dataBytes := make([]byte, conf.BatchSize)
@@ -50,20 +54,30 @@ func handleClientConn(conn net.Conn, path string) {
 			break
 		}
 
-		fmt.Println("start sending data...")
-		fmt.Println("batch data length:", n)
-		if _, err := conn.Write(IntToBytes(n)); err != nil {
-			fmt.Println("send batch length failed:", err)
-			break
-		}
+		fmt.Println("sending batch data...")
+		//fmt.Println("batch data length:", n)
+		//if _, err := conn.Write(IntToBytes(n)); err != nil {
+		//	fmt.Println("send batch length failed:", err)
+		//	break
+		//}
 
-		if _, err := conn.Write(dataBytes[:n]); err != nil {
+		wn, err := conn.Write(dataBytes[:n])
+		if err != nil {
 			fmt.Println("sending data failed:", err)
 			return
 		}
-		fmt.Println("sending data done")
+		fmt.Println("sent data:", wn)
 
 		offset += int64(n)
+		end := time.Now()
+		delta := end.Sub(start)
+		elapsed := delta.Hours() * 3600 + delta.Minutes() * 60 + delta.Seconds()
+		if elapsed > 0 {
+			speed = offset / int64(elapsed)
+		}
+		fmt.Printf("sending process: %d / %d, speed: %d Bytes/Second\n",
+		offset, header.TotalSize, speed)
+
 		if offset >= header.TotalSize {
 			fmt.Printf("file read: %d, total: %d\n", offset, header.TotalSize)
 			break
