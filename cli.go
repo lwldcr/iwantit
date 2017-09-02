@@ -55,11 +55,6 @@ func handleClientConn(conn net.Conn, path string) {
 		}
 
 		fmt.Println("sending batch data...")
-		//fmt.Println("batch data length:", n)
-		//if _, err := conn.Write(IntToBytes(n)); err != nil {
-		//	fmt.Println("send batch length failed:", err)
-		//	break
-		//}
 
 		wn, err := conn.Write(dataBytes[:n])
 		if err != nil {

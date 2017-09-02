@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net"
 	"os"
-	//	"time"
 )
 
 func handleConn(conn net.Conn) {
@@ -44,26 +43,7 @@ func handleConn(conn net.Conn) {
 	defer fp.Close()
 
 	offset := int64(0)
-	//	var batchLength int
 	for {
-		//		batchLengthBytes := make([]byte, 4)
-		//		n, err := conn.Read(batchLengthBytes)
-		//		if err != nil {
-		//			fmt.Println("reading batch data length failed:", err)
-		//			break
-		//		}
-		//		if n != 4 {
-		//			fmt.Println("reading batch data length error:", "expect: 4", "got:", n)
-		//			break
-		//			continue
-		//		}
-		//		batchLength = BytesToInt(batchLengthBytes)
-		//		if batchLength <= 0 || batchLength > int(conf.BatchSize) {
-		//			fmt.Println("Got wrong batch length:", batchLength)
-		//			time.Sleep(1 * time.Microsecond)
-		//			break
-		//		}
-		//		fmt.Println("Got batch length:", batchLength)
 		dataBytes := make([]byte, conf.BatchSize)
 		n, err := conn.Read(dataBytes)
 		if err != nil {
