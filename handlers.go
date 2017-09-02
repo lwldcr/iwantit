@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	//	"time"
 )
 
 func handleConn(conn net.Conn) {
@@ -43,27 +44,41 @@ func handleConn(conn net.Conn) {
 	defer fp.Close()
 
 	offset := int64(0)
+	//	var batchLength int
 	for {
-		batchLengthBytes := make([]byte, 4)
-		if _, err := conn.Read(batchLengthBytes); err != nil {
-			fmt.Println("reading batch data length failed:", err)
-			break
-		}
-
-		dataBytes := make([]byte, BytesToInt(batchLengthBytes))
-		if _, err := conn.Read(dataBytes); err != nil {
+		//		batchLengthBytes := make([]byte, 4)
+		//		n, err := conn.Read(batchLengthBytes)
+		//		if err != nil {
+		//			fmt.Println("reading batch data length failed:", err)
+		//			break
+		//		}
+		//		if n != 4 {
+		//			fmt.Println("reading batch data length error:", "expect: 4", "got:", n)
+		//			break
+		//			continue
+		//		}
+		//		batchLength = BytesToInt(batchLengthBytes)
+		//		if batchLength <= 0 || batchLength > int(conf.BatchSize) {
+		//			fmt.Println("Got wrong batch length:", batchLength)
+		//			time.Sleep(1 * time.Microsecond)
+		//			break
+		//		}
+		//		fmt.Println("Got batch length:", batchLength)
+		dataBytes := make([]byte, conf.BatchSize)
+		n, err := conn.Read(dataBytes)
+		if err != nil {
 			fmt.Println("reading batch data failed:", err)
 			break
 		}
 
-		fmt.Println("writing batch data into new file...")
-		n, err := fp.Write(dataBytes)
+		fmt.Println("writing batch data into new file:", n)
+		wn, err := fp.Write(dataBytes[:n])
 		if err != nil {
 			fmt.Println("write failed:", err)
 			return
 		}
 
-		offset += int64(n)
+		offset += int64(wn)
 		if offset >= header.TotalSize {
 			fmt.Printf("detected file length: %d, should be: %d\n", offset, header.TotalSize)
 			break
