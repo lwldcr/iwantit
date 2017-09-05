@@ -18,8 +18,8 @@ func init() {
 func Usage() {
 	fmt.Println("welcome to IWantYou.")
 	fmt.Println("Usage: ")
-	fmt.Println("\t ./IwantYou ${ROLE} [filepath]")
-	fmt.Println("ROLE: server|client")
+	fmt.Println("\t ./IwantYou ${ACTION} [filepath]")
+	fmt.Println("ACTION: startserver|send")
 	fmt.Println("filepath: path to file you want to send, required as client")
 	os.Exit(1)
 }
@@ -32,9 +32,9 @@ func main() {
 	}
 	role := os.Args[1]
 	switch role {
-	case "server":
+	case "startserver":
 		conf.Role = Host
-	case "client":
+	case "send":
 		if len(os.Args) != 3 {
 			Usage()
 		}
